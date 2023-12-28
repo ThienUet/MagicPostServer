@@ -14,6 +14,7 @@ const UserSchema = new Schema({
     role: {type: String, default: 'client'},
     gender: {type: String, required: true},
     birthDate: {type: Date, required: false, default: moment().format()},
+    isActive: {type: Boolean, required: true, default: true},
     isBanned: {type: Boolean, default: false},
     updatedDate: {type: Date, required: false},
     createDate: {type: Date, required: false, default: moment().format()},
