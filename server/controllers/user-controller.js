@@ -194,6 +194,7 @@ module.exports.updateUser = (req, res) => {
             }
             payload.updatedBy = id;
             payload.updatedDate = moment().format();
+            if (user.role !== undefined) payload.role = user.role;
             if (user.firstName !== undefined) payload.firstName = user.firstName;
             if (user.lastName !== undefined) payload.lastName = user.lastName;
             if (user.email !== undefined) payload.email = user.email;
@@ -204,11 +205,11 @@ module.exports.updateUser = (req, res) => {
 
             UserModel.updateOne({_id: user._id}, {$set: payload}).then((user) => {
                 if (user) {
-                    return res.status(200).send({code: 1, message: "Cập nhật thành công !"});
+                    return res.status(200).send({code: 0, message: "Cập nhật thành công !"});
                 } else {
-                    return res.status(404).send({code: 0, message: 'Cập nhật thất bại !'});
+                    return res.status(404).send({code: 1, message: 'Cập nhật thất bại !'});
                 }
-            })
+            });
         } else {
             return res.status(404).send({code: 1, message: "Không thể cập nhật người dùng", error: 'Không có user truyền lên'}).end();
         }

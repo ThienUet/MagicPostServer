@@ -16,7 +16,9 @@ var corsOptions = function (req, callback) {
     'http://magic-post.ddns.net',
     'http://116.101.54.45:80/',
     'http://116.101.54.45:3000/',
-    'http://59.153.225.105:3000'
+    'http://59.153.225.105:3000',
+    'http://51.158.235.12',
+    'http://51.158.235.12:3000'
 
 ]
     var corsOptions;
@@ -44,9 +46,9 @@ db.ready.then(() => {
       res.send("OKOKOKOK")
     })
     app.use('/api', cors(corsOptions), api);
-    app.use('/api/*', cors(corsOptions), (req, res) => {
-        res.status(500).send({message: 'LỖI CORS RỒI !'})
-    });
+    // app.use('/api/*', cors(corsOptions), (req, res) => {
+    //     res.status(500).send({message: 'LỖI CORS RỒI !'})
+    // });
     app.listen(PORT || 3000, err => {
         if (err) throw err;
         console.log(`> Ready HTTP on http://localhost:${PORT}`);

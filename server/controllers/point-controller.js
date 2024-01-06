@@ -1,6 +1,9 @@
 const PointModel = require('../models/points');
+const PointTransactionModel = require('../models/transaction-point');
+// const PointHubsModel = require('../models/hubs-point');
 const moment = require('moment');
 
+// Tạo điểm giao dịch
 module.exports.createPoint = async(req, res) => {
     try {
         const role = req.role;
@@ -30,13 +33,12 @@ module.exports.createPoint = async(req, res) => {
                         lat: _lat,
                         lng: _lng,
                         pointRelation: data.pointRelation || null,
-                        pointManager: data.pointManager,
                         createBy: 'admin',
                         createDate: moment().format(),
                         updateBy: 'admin',
                         updatedDate: moment().format()
                     }
-                    const pointModel = new PointModel(point);
+                    const pointModel = new PointTransactionModel(point);
                     let result = await pointModel.save();
                     return res.status(200).send({code: 0, message: "Tạo điểm thành công !", data: result}).end();
                 }
@@ -50,6 +52,7 @@ module.exports.createPoint = async(req, res) => {
         return res.status(404).send({code: 0, message: "Không thể tạo điểm !", error: error}).end();
     }
 }
+
 
 module.exports.getListPointTranSaction = (req, res) => {
     try {
@@ -77,6 +80,25 @@ module.exports.getListPointHubs = (req, res) => {
             return res.status(404).send({code: 1, message: "Không thể lấy danh sách !", error: "Không được cấp quyền !"}).end();
         } else {
             PointModel.find({pointType: 'hub-point'}).then((point) => {
+                if (point) {
+                    return res.status(200).send({code: 0, message: "Lấy dữ liệu thành công !", data: point}).end();
+                } else {
+                    return res.status(404).send({code: 1, message: "Lấy dữ liệu thất bại", error: "Không có data !"}).end();
+                }
+            })
+        }
+    } catch (error) {
+        return res.status(404).send({code: 1, message: "Không thể lấy danh sách", error: error}).end();
+    }
+}
+
+module.exports.getAllPoint = (req, res) => {
+    try {
+        const role = req.role;
+        if (role !== 'admin') {
+            return res.status(404).send({code: 1, message: "Không thể lấy danh sách !", error: "Không được cấp quyền !"}).end();
+        } else {
+            PointModel.find().then((point) => {
                 if (point) {
                     return res.status(200).send({code: 0, message: "Lấy dữ liệu thành công !", data: point}).end();
                 } else {

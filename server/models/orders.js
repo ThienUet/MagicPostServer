@@ -2,7 +2,7 @@ const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const moment = require('moment');
 
-const ProductSchema = new Schema({
+const OrderSchema = new Schema({
     name: {type: String, require: true},
     sentUser: {type: Object, require: true},
     receiveUser: {type: Object, require: true},
@@ -24,4 +24,4 @@ const ProductSchema = new Schema({
     updatedDate: {type: Date, default: moment().format()},
 });
 
-module.exports = Mongoose.model('point', ProductSchema, 'point');
+module.exports = Mongoose.model('orders', OrderSchema, 'orders');

@@ -13,6 +13,10 @@ const UserSchema = new Schema({
     password: {type: String, required: true},
     role: {type: String, default: 'client'},
     gender: {type: String, required: true},
+    pointCoordinate: {
+        lat: {type: Number, require: true, default: 21.0285},
+        lng: {type: Number, require: true, default: 105.8542}
+    },
     birthDate: {type: Date, required: false, default: moment().format()},
     isActive: {type: Boolean, required: true, default: true},
     isBanned: {type: Boolean, default: false},
